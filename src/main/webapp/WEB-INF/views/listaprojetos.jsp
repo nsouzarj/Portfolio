@@ -12,6 +12,11 @@ pageEncoding="UTF-8" isELIgnored="false"%>
         <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
         <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}"/>
     </head>
+    <style>
+      .d-flex .btn {
+        margin-right: 15px;
+      }
+    </style>
 
 </head>
 <body>
@@ -40,7 +45,7 @@ pageEncoding="UTF-8" isELIgnored="false"%>
         <tbody>
             <c:forEach items="${listaproj}" var="projeto">
                 <tr>
-                    <td><a href="/api/projeto/alterarprojeto/${projeto.id}">${projeto.id}</a></td>
+                    <td id="minha-coluna" style="background-color: #fcf6bd;"><a href="/api/projeto/alterarprojeto/${projeto.id}">${projeto.id}</a></td>
                     <td>${projeto.nome}</td>
                     <td>${projeto.data_inicio}</td>
                     <td>${projeto.data_previsao_fim}</td>
@@ -61,7 +66,14 @@ pageEncoding="UTF-8" isELIgnored="false"%>
                 </tr>
             </c:forEach>
         </tbody>
+
     </table>
+     <c:if test="${alert == true}">
+         <div class="alert alert-danger" role="alert">
+             ${msg}
+         </div>
+
+     </c:if>
 
 
 

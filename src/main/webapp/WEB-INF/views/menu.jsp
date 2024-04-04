@@ -7,7 +7,7 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}"/>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;" >
         <div class="container">
             <a class="navbar-brand" href="#">Menu Projeto</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +32,7 @@
 
     <!-- Conteúdo da página -->
     <div class="container mt-4">
-        <h1>Bem-vindo ao Gerenciado de Projetos</h1>
+        <h1>Bem-vindo ao Gerenciador de Projetos</h1>
         <h2>Sistema de controle de projetos</h2>
     </div>
 

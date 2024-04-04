@@ -28,7 +28,7 @@ pageEncoding="UTF-8" isELIgnored="false"%>
         </tr>
         <c:forEach var="entrada" items="${people}">
              <tr>
-                 <td><a href="/api/pessoa/alteracao/${entrada.id}">${entrada.id}</a></td>
+                 <td style="background-color: #fcf6bd;"><a href="/api/pessoa/alteracao/${entrada.id}">${entrada.id}</a></td>
                  <td>${entrada.nome}</td>
                  <td>${entrada.datanascimento}</td>
                  <td>${entrada.cpf}</td>
