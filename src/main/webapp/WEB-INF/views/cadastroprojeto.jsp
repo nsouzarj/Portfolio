@@ -39,8 +39,6 @@ pageEncoding="UTF-8" isELIgnored="false"%>
                 </c:forEach>
             </select>
         </div>
-
-
         <div class="form-group">
             <label for="orcamento">Orçamento:</label>
             <input type="number" class="form-control" id="orcamento" name="orcamento" step="0.01">
@@ -61,8 +59,6 @@ pageEncoding="UTF-8" isELIgnored="false"%>
                    </c:forEach>
              </select>
          </div>
-
-
         <button type="submit" class="btn btn-primary" title="Salva o cadastro" >Cadastrar</button>
         <a href="/api/projeto/listaprojetos" title="Cancela o cadastro e volta pra lista de projetos" class="btn btn-warning">Cancelar</a>
     </form>

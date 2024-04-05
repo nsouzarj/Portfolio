@@ -35,7 +35,5 @@
         <h1>Bem-vindo ao Gerenciador de Projetos</h1>
         <h2>Sistema de controle de projetos</h2>
     </div>
-
-
 </body>
 </html>

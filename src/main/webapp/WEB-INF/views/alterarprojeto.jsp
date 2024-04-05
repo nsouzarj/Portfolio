@@ -51,8 +51,6 @@ pageEncoding="UTF-8" isELIgnored="false"%>
                 </c:forEach>
             </select>
         </div>
-
-
         <div class="form-group">
              <label for="idgerente">Gerente:</label>
                <select class="form-control" id="idgerente" name="idgerente" value="${project.idgerente}" >

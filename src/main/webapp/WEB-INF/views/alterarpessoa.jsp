@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <title>Alterar Pessoa</title>
     <!-- Adicione o link do Bootstrap via CDN (opcional) -->
-      <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
-        <link
-              rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}"
-            />
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}"/>
 </head>
 <body>
     <div class="container">

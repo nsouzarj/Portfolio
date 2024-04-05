@@ -66,7 +66,6 @@ pageEncoding="UTF-8" isELIgnored="false"%>
                 </tr>
             </c:forEach>
         </tbody>
-
     </table>
      <c:if test="${alert == true}">
          <div class="alert alert-danger" role="alert">
@@ -74,9 +73,6 @@ pageEncoding="UTF-8" isELIgnored="false"%>
          </div>
 
      </c:if>
-
-
-
 </body>
 </html>
 
