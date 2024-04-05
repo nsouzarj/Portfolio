@@ -57,6 +57,11 @@ pageEncoding="UTF-8" isELIgnored="false"%>
              </tr>
         </c:forEach>
     </table>
+    <c:if test="${alert == true}">
+        <div class="alert alert-danger" role="alert">
+           ${msg}
+       </div>
+    </c:if>
     </div>
 </body>
 </form>

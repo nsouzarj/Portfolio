@@ -9,12 +9,15 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/pessoa")
 public class PersonController {
+    private String msg;
+    private boolean alert;
 
     private final PersonService personService;
     @Autowired
@@ -65,10 +68,21 @@ public class PersonController {
         person.setDatanascimento(dataNascimento);
         person.setFuncionario(funcionario);
         person.setGerente(gerente);
-        personService.createPerson(person);
+        if (person.isFuncionario()  && !Objects.equals(person.getNome(), "")){
+            alert=true;
+            msg="Pessoa cadastrada com sucesso.";
+            personService.createPerson(person);
+        }else{
+            alert=true;
+            msg="Erro cadastrar verifique o cargo se empregado estao marcado.";
+        }
+
         List<Person> people= personService.getAllPeople();
         System.out.println(people);
+
         ModelAndView modelAndView = new ModelAndView("listapessoas");
+        modelAndView.addObject("msg",msg);
+        modelAndView.addObject("alert",alert);
         modelAndView.addObject("people",people);
         return modelAndView;
     }
@@ -92,6 +106,15 @@ public class PersonController {
         person1.setCpf(cpf);
         person1.setFuncionario(funcionario);
         person1.setGerente(gerente);
+        if (person1.isFuncionario()  && !Objects.equals(person1.getNome(), "")){
+            alert=true;
+            msg="Pessoa nao pode ser alterada.";
+            personService.updatePerson(num,person1);
+        }else{
+            alert=true;
+            msg="Erro ao alterar a pessoa verifique o cargo se empregado esta marcado.";
+        }
+
         personService.updatePerson(num,person1);
         List<Person> people= personService.getAllPeople();
         andView = new ModelAndView("listapessoas");
