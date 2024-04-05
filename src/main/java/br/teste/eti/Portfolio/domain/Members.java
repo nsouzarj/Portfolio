@@ -13,6 +13,8 @@ import lombok.Setter;
 @Entity
 @IdClass(MembersId.class)
 public class Members {
+    @Transient
+    private Long id;
     @Id
     private Long idprojeto;
     @Id

@@ -7,6 +7,11 @@ pageEncoding="UTF-8" isELIgnored="false"%>
     <title>Lista de Pessoas</title>
     <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}"/>
+   <style>
+         .d-flex .btn {
+           margin-right: 15px;
+         }
+    </style>
 </head>
 <form>
 <body>
