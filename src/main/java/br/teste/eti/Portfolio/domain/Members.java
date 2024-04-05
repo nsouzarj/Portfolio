@@ -1,19 +1,20 @@
 package br.teste.eti.Portfolio.domain;
 
 
+import jakarta.persistence.*;
 import lombok.Data;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
+@Getter
+@Setter
+@Table(name = "membros")
 @Entity
-@IdClass (MembersId.class)
+@IdClass(MembersId.class)
 public class Members {
     @Id
     private Long idprojeto;
-
     @Id
     private Long idpessoa;
 }

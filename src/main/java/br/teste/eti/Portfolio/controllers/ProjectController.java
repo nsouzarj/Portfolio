@@ -76,6 +76,7 @@ public class ProjectController {
         boolean alert = false;
         num= Long.parseLong(id);
         Optional<Project> project=projectService.getProjectById(num);
+        List<Person> listPerson=personService.getAllPeople();
         Project p = project.orElse(new Project());
         ModelAndView modelAndView= new ModelAndView("listaprojetos");
         try {
@@ -83,21 +84,31 @@ public class ProjectController {
                     p.getStatus().equals(StatusProjeto.EM_ANDAMENTO.getDescricao())||
                     p.getStatus().equals(StatusProjeto.ENCERRDO.getDescricao())){
 
-               msg="Projeto não pode ser excluido.";
-               alert=true;
+                msg="Projeto não pode ser excluido o status esta em: "+p.getStatus();
+                alert=true;
+                modelAndView.addObject("msg",msg);
+                modelAndView.addObject("alert",alert);
+                modelAndView.addObject("listPerson",listPerson);
+                modelAndView.addObject("listaproj",projectService.getAllProjects());
 
            }else{
                 projectService.deleteProject(num);
                 msg="Projeto excluido com sucesso.";
                 alert=true;
+                modelAndView.addObject("msg",msg);
+                modelAndView.addObject("alert",alert);
+                modelAndView.addObject("listPerson",listPerson);
+                modelAndView.addObject("listaproj",projectService.getAllProjects());
            }
         } catch (IllegalArgumentException e) {
             msg="Erro ao excluir o projeto";
             alert=true;
+            modelAndView.addObject("msg",msg);
+            modelAndView.addObject("alert",alert);
+            modelAndView.addObject("listaproj",projectService.getAllProjects());
         }
-        modelAndView.addObject("nsg",msg);
-        modelAndView.addObject("alert",alert);
-        modelAndView.addObject("listaproj",projectService.getAllProjects());
+
+
         return modelAndView;
 
 //
@@ -140,6 +151,9 @@ public class ProjectController {
         project.setIdgerente(idgerente);
         projectService.createProject(project);
         ModelAndView modelAndView= new ModelAndView("listaprojetos");
+
+        List<Person> listPerson=personService.getAllPeople();
+        modelAndView.addObject("listPerson",listPerson);
         modelAndView.addObject("listaproj",projectService.getAllProjects());
         return modelAndView;
 
