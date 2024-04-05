@@ -101,6 +101,7 @@ public class PersonController {
         num= Long.parseLong(id);
         Optional<Person> person = personService.getPersonById(num);
         Person person1 = person.orElse(new Person());
+
         person1.setNome(nome);
         person1.setDatanascimento(dataNascimento);
         person1.setCpf(cpf);
@@ -114,7 +115,6 @@ public class PersonController {
             alert=true;
             msg="Erro ao alterar a pessoa verifique o cargo se empregado esta marcado.";
         }
-
         personService.updatePerson(num,person1);
         List<Person> people= personService.getAllPeople();
         andView = new ModelAndView("listapessoas");
