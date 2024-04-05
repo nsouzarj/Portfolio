@@ -7,6 +7,9 @@
 ## A funcao do sistema e cadastrar Projetos e Gerenciar ##
 
 1. Cadastro de Projetos
-2. Cadsatro de Pessoa
+2. Cadastro de Pessoa
 3. Alteracao de Projetos
+4. Alteraçãp de Pessoa
+5. Exclusao de Pojetos
+6. Exclusao de Pessoa
 
