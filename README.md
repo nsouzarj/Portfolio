@@ -4,7 +4,7 @@
 - Java 18, Spring Boot, Hibernate, JSP,Lombok, Bootstrap
 - Banco de dados usado Postgres
 
-### A funcao do sistema e cadastrar Projetos e gerenciar ###
+## A funcao do sistema e cadastrar Projetos e Gerenciar ##
 
 1. Cadastro de Projetos
 2. Cadsatro de Pessoa
