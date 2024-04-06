@@ -119,7 +119,6 @@ class ProjectControllerTest {
         existingProject.setNome("AAAAAA");
         existingProject.setRisco(Risco.MEDIO.getDescricao());
         existingProject.setStatus(StatusProjeto.EM_ANALISE.getDescricao());
-        OngoingStubbing<Optional<Project>> optionalOngoingStubbing = when(projectService.getProjectById(id)).thenReturn(Optional.of(existingProject));
         List<Person> mockPersonList = new ArrayList<>();
         when(personService.getAllPeople()).thenReturn(mockPersonList);
         List<Project> mockProjectList = new ArrayList<>();
