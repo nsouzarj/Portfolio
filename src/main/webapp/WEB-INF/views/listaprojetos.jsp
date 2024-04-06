@@ -38,7 +38,7 @@ pageEncoding="UTF-8" isELIgnored="false"%>
                 <th>Status</th>
                 <th>Orçamento</th>
                 <th>Risco</th>
-                <th>ID do Gerente</th>
+                <th>Gerente</th>
                 <th>Excluir</th>
             </tr>
         </thead>
