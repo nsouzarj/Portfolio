@@ -4,6 +4,7 @@ import br.teste.eti.Portfolio.domain.Project;
 import br.teste.eti.Portfolio.enums.Risco;
 import br.teste.eti.Portfolio.enums.StatusProjeto;
 import br.teste.eti.Portfolio.services.PersonService;
+import org.aspectj.weaver.patterns.PerObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,10 +47,12 @@ public class ProjectController {
         // Adicione os enums ao ModelAndView
 
         List<Person> listPerson=personService.getAllPeople();
-
+        Project project = new Project();
         view.addObject("listPerson", listPerson);
         view.addObject("riscoEnum", Risco.values());
+        view.addObject("pro",project);
         view.addObject("statusEnum", StatusProjeto.values());
+
         return view;
     }
     @GetMapping("/alterarprojeto/{id}")
@@ -118,37 +121,23 @@ public class ProjectController {
     @CrossOrigin
     @PostMapping(value = "/cadastrarProjeto",consumes = "application/x-www-form-urlencoded")
     @ResponseBody
-    public ModelAndView createProject(@RequestParam String nome,
-                               @RequestParam LocalDate data_inicio,
-                               @RequestParam LocalDate data_previsao_fim,
-                               @RequestParam LocalDate data_fim,
-                               @RequestParam String descricao,
-                               @RequestParam(value = "status",defaultValue = "DESCONHECIDO") String status,
-                               @RequestParam Float orcamento,
-                               @RequestParam(value = "risco",defaultValue = "DESCONHECIDO") String risco,
-                               @RequestParam Long idgerente ) {
-        Project project  = new Project();
+    public ModelAndView createProject(Project pro ) {
+        Project project  = pro;
         // Dentro do método createProject
         try {
-            Risco riscoEnum = Risco.valueOf(risco);
+            Risco riscoEnum = Risco.valueOf(project.getRisco());
             project.setRisco(riscoEnum.getDescricao());
         } catch (IllegalArgumentException e) {
             project.setRisco(Risco.DESCONHECIDO.name());
         }
 
         try {
-            StatusProjeto statusEnum = StatusProjeto.valueOf(status.toUpperCase());
+            StatusProjeto statusEnum = StatusProjeto.valueOf(project.getStatus().toUpperCase());
             project.setStatus(statusEnum.getDescricao());
         } catch (IllegalArgumentException e) {
             project.setStatus(StatusProjeto.DESCONHECIDO.getDescricao());
         }
-        project.setNome(nome);
-        project.setData_inicio(data_inicio);
-        project.setData_previsao_fim(data_previsao_fim);
-        project.setData_fim(data_fim);
-        project.setDescricao(descricao);
-        project.setOrcamento(orcamento);
-        project.setIdgerente(idgerente);
+
         projectService.createProject(project);
         ModelAndView modelAndView= new ModelAndView("listaprojetos");
 
@@ -162,36 +151,22 @@ public class ProjectController {
     @PostMapping(value = "/alterarProjeto/{id}",consumes = "application/x-www-form-urlencoded")
     @ResponseBody
     public ModelAndView alterProject(@PathVariable String id,
-                                      @RequestParam String nome,
-                                      @RequestParam LocalDate data_inicio,
-                                      @RequestParam LocalDate data_previsao_fim,
-                                      @RequestParam LocalDate data_fim,
-                                      @RequestParam String descricao,
-                                      @RequestParam String status,
-                                      @RequestParam Float orcamento,
-                                      @RequestParam String risco,
-                                      @RequestParam Long idgerente ) {
+                                     Project pro) {
         long num = 0;
         num= Long.parseLong(id);
         Optional<Project> project  = projectService.getProjectById(num);
-        Project p = project.orElse(new Project());
-        p.setNome(nome);
-        p.setData_inicio(data_inicio);
-        p.setData_previsao_fim(data_previsao_fim);
-        p.setData_fim(data_fim);
-        p.setDescricao(descricao);
-        p.setOrcamento(orcamento);
-        p.setIdgerente(idgerente);
+        Project p =pro;
+
 
         try {
-            Risco riscoEnum = Risco.valueOf(risco);
+            Risco riscoEnum = Risco.valueOf(p.getRisco());
             p.setRisco(riscoEnum.getDescricao());
         } catch (IllegalArgumentException e) {
             p.setRisco(Risco.DESCONHECIDO.name());
         }
 
         try {
-            StatusProjeto statusEnum = StatusProjeto.valueOf(status);
+            StatusProjeto statusEnum = StatusProjeto.valueOf(pro.getStatus());
             p.setStatus(statusEnum.getDescricao());
         } catch (IllegalArgumentException e) {
             p.setStatus(StatusProjeto.DESCONHECIDO.getDescricao());

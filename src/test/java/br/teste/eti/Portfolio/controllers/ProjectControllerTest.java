@@ -2,6 +2,7 @@ package br.teste.eti.Portfolio.controllers;
 
 import br.teste.eti.Portfolio.domain.Person;
 import br.teste.eti.Portfolio.domain.Project;
+import br.teste.eti.Portfolio.enums.Risco;
 import br.teste.eti.Portfolio.enums.StatusProjeto;
 import br.teste.eti.Portfolio.services.PersonService;
 import br.teste.eti.Portfolio.services.ProjectService;
@@ -43,11 +44,10 @@ class ProjectControllerTest {
 
     @Test
     void testCadprojeto() {
-
+        //Acao
         when(personService.getAllPeople()).thenReturn(new ArrayList<>());
-
         ModelAndView modelAndView = projectController.cadprojeto();
-
+        //Verificacao
         assertEquals("/cadastroprojeto", modelAndView.getViewName());
         assertNotNull(modelAndView.getModel().get("listPerson"));
         assertNotNull(modelAndView.getModel().get("riscoEnum"));
@@ -56,22 +56,20 @@ class ProjectControllerTest {
 
     @Test
     public void testGetProjectById() {
-        // Mock the service behavior
+        //Cenario
         long projectId = 1L;
         Project mockProject = new Project();
+        //Acao
         when(projectService.getProjectById(projectId)).thenReturn(Optional.of(mockProject));
-
-        // Call the controller method
         ModelAndView result = projectController.getProjectById(String.valueOf(projectId));
-
-        // Verify the results
+        //Verificacao
         assertEquals("alterarprojeto", result.getViewName());
         assertEquals(mockProject, result.getModel().get("project"));
     }
 
 
     @Test
-    public void testDeleteProject() {
+    public void testDeleteProjectEmAnalise() {
         // Mock the service behavior
         long projectId = 1L;
         Project mockProject = new Project();
@@ -79,7 +77,7 @@ class ProjectControllerTest {
         mockProject.setNome("TESTTE");
         mockProject.setDescricao("XXXXXXXXXXXXXXXXX");
         mockProject.setOrcamento(2000.00F);
-        mockProject.setStatus(StatusProjeto.CANCELADO.getDescricao());
+        mockProject.setStatus(StatusProjeto.EM_ANALISE.getDescricao());
         when(projectService.getProjectById(projectId)).thenReturn(Optional.of(mockProject));
 
         // Call the controller method
@@ -90,25 +88,47 @@ class ProjectControllerTest {
         assertEquals("listaprojetos", result.getViewName());
     }
 
+    @Test
+    public void testDeleteProjectEmAndamento() {
+        //Cenario
+        long projectId = 1L;
+        Project mockProject = new Project();
+        mockProject.setId(projectId);
+        mockProject.setNome("TESTTE");
+        mockProject.setDescricao("XXXXXXXXXXXXXXXXX");
+        mockProject.setOrcamento(2000.00F);
+        mockProject.setStatus(StatusProjeto.EM_ANDAMENTO.getDescricao());
+        //Acao
+        when(projectService.getProjectById(projectId)).thenReturn(Optional.of(mockProject));
+        // Call the controller method
+        ModelAndView result = projectController.deleteProject(String.valueOf(projectId));
+
+        //Verificacao
+        assertEquals("listaprojetos", result.getViewName());
+    }
+
 
 
 
     @Test
     public void testAlterProject_successfulUpdate() {
-        // Arrange
+        //Cenario
         Long id = 1L;
         Project existingProject = new Project();
+        existingProject.setId(1L);
+        existingProject.setNome("AAAAAA");
+        existingProject.setRisco(Risco.MEDIO.getDescricao());
+        existingProject.setStatus(StatusProjeto.EM_ANALISE.getDescricao());
         OngoingStubbing<Optional<Project>> optionalOngoingStubbing = when(projectService.getProjectById(id)).thenReturn(Optional.of(existingProject));
         List<Person> mockPersonList = new ArrayList<>();
         when(personService.getAllPeople()).thenReturn(mockPersonList);
         List<Project> mockProjectList = new ArrayList<>();
         when(projectService.getAllProjects()).thenReturn(mockProjectList);
 
-        // Act
-        ModelAndView result = projectController.alterProject(id.toString(), "New Name", LocalDate.now(),
-                LocalDate.now(), LocalDate.now(), "New Description", "Em Andamento", 10000F, "Risco Baixo", 2L);
+        //Acao
+        ModelAndView result = projectController.alterProject(id.toString(),existingProject);
 
-        // Assert
+        //Verificacao
         verify(projectService).updateProject(eq(id), any(Project.class));
         assertEquals("listaprojetos", result.getViewName());
         assertEquals(mockPersonList, result.getModel().get("listPerson"));
@@ -119,27 +139,49 @@ class ProjectControllerTest {
 
     @Test
     public void testCreateProject() {
-        // Prepare test data
-        String nome = "Test Project";
-        LocalDate dataInicio = LocalDate.now();
-        LocalDate dataPrevisaoFim = dataInicio.plusMonths(6);
-        String descricao = "TNovo Projeto";
-        Float orcamento = 10000f;
-        Long idGerente = 1L;
+        //Cenario
+        Project project= new Project();
+       // Prepare test data
+        project.setNome("XXXXXXXX");
+        project.setRisco("Risco baixo");
+        project.setData_inicio(LocalDate.now());
+        project.setDescricao("projeto de teste");
+        project.setData_previsao_fim(LocalDate.now());
+        project.setData_fim(LocalDate.now());
+        project.setOrcamento(10000F);
+        project.setIdgerente(1L);
+        project.setStatus("Baixo Risco");
 
-        // Mock service behavior
+        //Acao
         when(projectService.createProject(Mockito.any(Project.class))).thenReturn(null);
+        ModelAndView modelAndView = projectController.createProject(project);
 
-        // Call the controller method
-        ModelAndView modelAndView = projectController.createProject(nome, dataInicio, dataPrevisaoFim, null, descricao, "Em Andamento", orcamento, "Risco Baixo", idGerente);
-
-        // Verify service call and model attributes
+        //Verirficacao
         verify(projectService).createProject(Mockito.any(Project.class));
         assertEquals("listaprojetos", modelAndView.getViewName());
         // Add assertions for the listaproj attribute based on your expected behavior
     }
 
 
+    @Test
+    public void testGetAllProjects_ValidData() {
+        // Arrange
+        List<Person> mockPeople = personService.getAllPeople();
+        List<Project> mockProjects = projectService.getAllProjects();
+        when(personService.getAllPeople()).thenReturn(mockPeople);
+        when(projectService.getAllProjects()).thenReturn(mockProjects);
+
+        // Act
+        ModelAndView modelAndView = projectController.getAllProjects();
+
+        // Assert
+        assertEquals("listaprojetos", modelAndView.getViewName());
+        assertFalse((boolean) modelAndView.getModel().get("alert"));
+        assertEquals("XXXXXXXXXXXXXXXXXXX", modelAndView.getModel().get("msg"));
+        assertEquals(mockPeople, modelAndView.getModel().get("listPerson"));
+        assertEquals(mockProjects, modelAndView.getModel().get("listaproj"));
+        // Add more assertions as needed
+    }
 
 
 }

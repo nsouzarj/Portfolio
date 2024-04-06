@@ -39,8 +39,11 @@ public class PersonController {
     @CrossOrigin
     @GetMapping("/cadastrarpessoa")
     public ModelAndView cadastrarPessoas(HttpServletResponse response){
+        Person person= new Person();
         response.setContentType("text/html; charset=UTF-8");
-        return new ModelAndView("cadastropessoa");
+        ModelAndView view = new ModelAndView("cadastropessoa");
+        view.addObject("p",person);
+        return view;
     }
 
 
@@ -55,19 +58,12 @@ public class PersonController {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/cadastrarPessoa",consumes = "application/x-www-form-urlencoded")
+    @PostMapping(value = "/cadastrarPessoa")
     @ResponseBody
-    public ModelAndView createPerson(@RequestParam String nome,
-                               @RequestParam LocalDate dataNascimento,
-                               @RequestParam String cpf,
-                               @RequestParam(value = "funcionario",defaultValue = "false", required = true) boolean funcionario,
-                               @RequestParam(value = "gerente", defaultValue = "false", required = true) boolean gerente)  {
+    public ModelAndView createPerson1(Person person1)  {
         Person person= new Person();
-        person.setNome(nome);
-        person.setCpf(cpf);
-        person.setDatanascimento(dataNascimento);
-        person.setFuncionario(funcionario);
-        person.setGerente(gerente);
+        person=person1;
+
         if (person.isFuncionario()  && !Objects.equals(person.getNome(), "")){
             alert=true;
             msg="Pessoa cadastrada com sucesso.";
@@ -88,34 +84,20 @@ public class PersonController {
     }
 
     @CrossOrigin
-    @PostMapping(value="/alterarPessoa/{id}", consumes = "application/x-www-form-urlencoded")
-    public ModelAndView updatePerson(@PathVariable String id,
-                                     @RequestParam String nome,
-                                     @RequestParam LocalDate dataNascimento,
-                                     @RequestParam String cpf,
-                                     @RequestParam(value = "funcionario",defaultValue = "false", required = true) boolean funcionario,
-                                     @RequestParam(value = "gerente", defaultValue = "false", required = true) boolean gerente) {
+    @PostMapping(value="/alterarPessoa/{id}")
+    public ModelAndView updatePerson(@PathVariable String id,Person person) {
 
         ModelAndView andView = new ModelAndView("listapessoas");
         long num = 0;
         num= Long.parseLong(id);
-        Optional<Person> person = personService.getPersonById(num);
-        Person person1 = person.orElse(new Person());
 
-        person1.setNome(nome);
-        person1.setDatanascimento(dataNascimento);
-        person1.setCpf(cpf);
-        person1.setFuncionario(funcionario);
-        person1.setGerente(gerente);
-        if (person1.isFuncionario()  && !Objects.equals(person1.getNome(), "")){
-            alert=true;
-            msg="Pessoa nao pode ser alterada.";
-            personService.updatePerson(num,person1);
+        if (person.isFuncionario()  && !Objects.equals(person.getNome(), "")){
+            personService.updatePerson(num, person);
         }else{
             alert=true;
             msg="Erro ao alterar a pessoa verifique o cargo se empregado esta marcado.";
         }
-        personService.updatePerson(num,person1);
+        personService.updatePerson(num, person);
         List<Person> people= personService.getAllPeople();
         andView = new ModelAndView("listapessoas");
         andView.addObject("people",people);
@@ -133,4 +115,6 @@ public class PersonController {
         andView.addObject("people",people);
         return andView;
     }
+
+
 }
