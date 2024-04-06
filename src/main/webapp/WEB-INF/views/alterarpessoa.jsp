@@ -17,8 +17,8 @@
             </div>
 
             <div class="form-group">
-                <label for="dataNascimento">Data de Nascimento:</label>
-                <input type="date" id="dataNascimento" value="${person.datanascimento}" name="dataNascimento" class="form-control" required>
+                <label for="datanascimento">Data de Nascimento:</label>
+                <input type="date" id="datanascimento" value="${person.datanascimento}" name="datanascimento" class="form-control" required>
             </div>
 
             <div class="form-group">
