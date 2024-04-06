@@ -60,14 +60,15 @@ public class ProjectController {
 
         long num = 0;
         num= Long.parseLong(id);
+        Optional<Project> project  = projectService.getProjectById(num);
+        Project p = project.orElse(new Project());
+
         ModelAndView view = new ModelAndView("alterarprojeto");
         List<Person> listPerson=personService.getAllPeople();
         view.addObject("listPerson", listPerson);
         view.addObject("riscoEnum", Risco.values());
         view.addObject("statusEnum", StatusProjeto.values());
-
-        view.addObject("project",projectService.getProjectById(num)
-                .orElseThrow(() -> new EntityNotFoundException("Project not found with id: " + id)));
+        view.addObject("project",p);
         return view;
     }
 
@@ -148,35 +149,34 @@ public class ProjectController {
 
     }
     @CrossOrigin
-    @PostMapping(value = "/alterarProjeto/{id}",consumes = "application/x-www-form-urlencoded")
+    @PostMapping(value = "/alterarProjeto/{id}")
     @ResponseBody
     public ModelAndView alterProject(@PathVariable String id,
                                      Project pro) {
         long num = 0;
         num= Long.parseLong(id);
-        Optional<Project> project  = projectService.getProjectById(num);
-        Project p =pro;
 
 
         try {
-            Risco riscoEnum = Risco.valueOf(p.getRisco());
-            p.setRisco(riscoEnum.getDescricao());
+            Risco risco= Risco.valueOf(pro.getRisco());
+            pro.setRisco(risco.getDescricao());
         } catch (IllegalArgumentException e) {
-            p.setRisco(Risco.DESCONHECIDO.name());
+            pro.setRisco(Risco.DESCONHECIDO.name());
         }
 
         try {
-            StatusProjeto statusEnum = StatusProjeto.valueOf(pro.getStatus());
-            p.setStatus(statusEnum.getDescricao());
+            StatusProjeto statusProjeto = StatusProjeto.valueOf(pro.getStatus());
+            pro.setStatus(statusProjeto.getDescricao());
         } catch (IllegalArgumentException e) {
-            p.setStatus(StatusProjeto.DESCONHECIDO.getDescricao());
+            pro.setStatus(StatusProjeto.DESCONHECIDO.getDescricao());
         }
 
-        projectService.updateProject(num,p);
+        projectService.updateProject(num, pro);
         List<Person> listPerson=personService.getAllPeople();
+        List<Project> listaproj=projectService.getAllProjects();
         ModelAndView modelAndView= new ModelAndView("listaprojetos");
         modelAndView.addObject("listPerson", listPerson);
-        modelAndView.addObject("listaproj",projectService.getAllProjects());
+        modelAndView.addObject("listaproj",listaproj);
         return modelAndView;
 
     }

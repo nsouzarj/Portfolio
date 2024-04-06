@@ -41,6 +41,15 @@ public class ProjectServiceImpl implements ProjectService {
 
         existingProject.setNome(updatedProject.getNome());
         existingProject.setData_inicio(updatedProject.getData_inicio());
+        existingProject.setStatus(updatedProject.getStatus());
+        existingProject.setRisco(updatedProject.getRisco());
+        existingProject.setDescricao(updatedProject.getDescricao());
+        existingProject.setNome(updatedProject.getNome());
+        existingProject.setData_previsao_fim(updatedProject.getData_previsao_fim());
+        existingProject.setData_inicio(updatedProject.getData_inicio());
+        existingProject.setData_fim(updatedProject.getData_fim());
+        existingProject.setOrcamento(updatedProject.getOrcamento());
+
         // ... Atualize outros campos conforme necessário
 
         return projectRepository.save(existingProject);

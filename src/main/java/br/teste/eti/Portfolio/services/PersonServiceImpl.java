@@ -39,9 +39,12 @@ public class PersonServiceImpl implements PersonService {
     public Person updatePerson(Long id, Person updatedPerson) {
         Person existingPerson = personRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Person not found with id: " + id));
-
         existingPerson.setNome(updatedPerson.getNome());
         existingPerson.setDatanascimento(updatedPerson.getDatanascimento());
+        existingPerson.setCpf(updatedPerson.getCpf());
+        existingPerson.setFuncionario(updatedPerson.isFuncionario());
+        existingPerson.setGerente(updatedPerson.isGerente());
+
         // ... Atualize outros campos conforme necessário
 
         return personRepository.save(existingPerson);
