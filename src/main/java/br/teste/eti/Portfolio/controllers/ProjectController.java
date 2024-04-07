@@ -1,6 +1,8 @@
 package br.teste.eti.Portfolio.controllers;
 import br.teste.eti.Portfolio.domain.Person;
 import br.teste.eti.Portfolio.domain.Project;
+import br.teste.eti.Portfolio.domain.dto.ConvertDTOS;
+import br.teste.eti.Portfolio.domain.dto.ProjectDto;
 import br.teste.eti.Portfolio.enums.Risco;
 import br.teste.eti.Portfolio.enums.StatusProjeto;
 import br.teste.eti.Portfolio.services.PersonService;
@@ -47,28 +49,28 @@ public class ProjectController {
         // Adicione os enums ao ModelAndView
 
         List<Person> listPerson=personService.getAllPeople();
-        Project project = new Project();
+        ProjectDto projectDto = new ProjectDto();
         view.addObject("listPerson", listPerson);
         view.addObject("riscoEnum", Risco.values());
-        view.addObject("pro",project);
+        view.addObject("pro",projectDto);
         view.addObject("statusEnum", StatusProjeto.values());
 
         return view;
     }
     @GetMapping("/alterarprojeto/{id}")
     public ModelAndView getProjectById(@PathVariable String id) {
-
+        ConvertDTOS dtos = new ConvertDTOS();
         long num = 0;
         num= Long.parseLong(id);
         Optional<Project> project  = projectService.getProjectById(num);
         Project p = project.orElse(new Project());
-
+        ProjectDto projectDto = dtos.projectDtoConvert(p);
         ModelAndView view = new ModelAndView("alterarprojeto");
         List<Person> listPerson=personService.getAllPeople();
         view.addObject("listPerson", listPerson);
         view.addObject("riscoEnum", Risco.values());
         view.addObject("statusEnum", StatusProjeto.values());
-        view.addObject("project",p);
+        view.addObject("project",projectDto);
         return view;
     }
 
@@ -111,22 +113,19 @@ public class ProjectController {
             modelAndView.addObject("alert",alert);
             modelAndView.addObject("listaproj",projectService.getAllProjects());
         }
-
-
         return modelAndView;
-
-//
-
     }
 
     @CrossOrigin
     @PostMapping(value = "/cadastrarProjeto",consumes = "application/x-www-form-urlencoded")
     @ResponseBody
-    public ModelAndView createProject(Project pro ) {
-        Project project  = pro;
+    public ModelAndView createProject(ProjectDto projectDto ) {
+        //Chama o DTO
+        ConvertDTOS dtos = new ConvertDTOS();
+        Project project  = dtos.convertProjectDto(projectDto);
         // Dentro do método createProject
         try {
-            Risco riscoEnum = Risco.valueOf(project.getRisco());
+            Risco riscoEnum = Risco.valueOf(projectDto.getRisco());
             project.setRisco(riscoEnum.getDescricao());
         } catch (IllegalArgumentException e) {
             project.setRisco(Risco.DESCONHECIDO.name());
@@ -152,10 +151,11 @@ public class ProjectController {
     @PostMapping(value = "/alterarProjeto/{id}")
     @ResponseBody
     public ModelAndView alterProject(@PathVariable String id,
-                                     Project pro) {
+                                     ProjectDto projectDto) {
         long num = 0;
         num= Long.parseLong(id);
-
+        ConvertDTOS dtos = new ConvertDTOS();
+        Project pro = dtos.convertProjectDto(projectDto);
 
         try {
             Risco risco= Risco.valueOf(pro.getRisco());

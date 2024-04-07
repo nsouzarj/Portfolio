@@ -1,5 +1,8 @@
 package br.teste.eti.Portfolio.controllers;
 import br.teste.eti.Portfolio.domain.Person;
+import br.teste.eti.Portfolio.domain.Project;
+import br.teste.eti.Portfolio.domain.dto.ConvertDTOS;
+import br.teste.eti.Portfolio.domain.dto.PersonDto;
 import br.teste.eti.Portfolio.services.PersonService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,10 +41,11 @@ public class PersonController {
     @CrossOrigin
     @GetMapping("/cadastrarpessoa")
     public ModelAndView cadastrarPessoas(HttpServletResponse response){
-        Person person= new Person();
+       // Person person= new Person();
+        PersonDto personDTO= new PersonDto();
         response.setContentType("text/html; charset=UTF-8");
         ModelAndView view = new ModelAndView("cadastropessoa");
-        view.addObject("p",person);
+        view.addObject("p",personDTO);
         return view;
     }
 
@@ -51,18 +54,22 @@ public class PersonController {
     public ModelAndView getPersonById(@PathVariable String id) {
         long num = 0;
         num= Long.parseLong(id);
+        ConvertDTOS dtos = new ConvertDTOS();
+        Optional<Person> person= personService.getPersonById(num);
+        Person p = person.orElse(new Person());
+        PersonDto personDto= dtos.covertDtoPesson(p);
         ModelAndView view = new ModelAndView("alterarpessoa");
-        view.addObject("person",personService.getPersonById(num)
-                .orElseThrow(() -> new EntityNotFoundException("Person not found with id: " + id)));
+        view.addObject("person",personDto);
         return  view;
     }
 
     @CrossOrigin
     @PostMapping(value = "/cadastrarPessoa")
     @ResponseBody
-    public ModelAndView createPerson1(Person person1)  {
-        Person person= new Person();
-        person=person1;
+    public ModelAndView createPerson1(PersonDto personDto)  {
+        ConvertDTOS dtos = new ConvertDTOS();
+        Person person=dtos.covertPessonDto(personDto);
+
 
         if (person.isFuncionario()  && !Objects.equals(person.getNome(), "")){
             alert=true;
@@ -85,13 +92,14 @@ public class PersonController {
 
     @CrossOrigin
     @PostMapping(value="/alterarPessoa/{id}")
-    public ModelAndView updatePerson(@PathVariable String id,Person person) {
-
+    public ModelAndView updatePerson(@PathVariable String id,PersonDto personDto) {
+        ConvertDTOS dtos = new ConvertDTOS();
+        Person person=dtos.covertPessonDto(personDto);
         ModelAndView andView = new ModelAndView("listapessoas");
         long num = 0;
         num= Long.parseLong(id);
 
-        if (person.isFuncionario()  && !Objects.equals(person.getNome(), "")){
+        if (personDto.isFuncionario()  && !Objects.equals(person.getNome(), "")){
             personService.updatePerson(num, person);
         }else{
             alert=true;

@@ -13,7 +13,7 @@
         <form action="/api/pessoa/alterarPessoa/${person.id}" method="post">
             <div class="form-group">
                 <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" value="${person.nome}" class="form-control" required>
+                <input type="text" id="nome" name="nome" value="${person.nome}" class="form-control" required oninput="this.value = this.value.toUpperCase()">
             </div>
 
             <div class="form-group">
