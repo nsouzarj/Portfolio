@@ -5,21 +5,16 @@ import br.teste.eti.Portfolio.domain.dto.ConvertDTOS;
 import br.teste.eti.Portfolio.domain.dto.ProjectDto;
 import br.teste.eti.Portfolio.enums.Risco;
 import br.teste.eti.Portfolio.enums.StatusProjeto;
-import br.teste.eti.Portfolio.services.PersonService;
 import br.teste.eti.Portfolio.services.PersonServiceImpl;
 import br.teste.eti.Portfolio.services.ProjectServiceImpl;
-import org.aspectj.weaver.patterns.PerObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import br.teste.eti.Portfolio.services.ProjectService;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.EntityNotFoundException;
 
 @RestController
 @RequestMapping("/api/projeto")

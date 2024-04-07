@@ -1,16 +1,12 @@
 package br.teste.eti.Portfolio.controllers;
 import br.teste.eti.Portfolio.domain.Person;
-import br.teste.eti.Portfolio.domain.Project;
 import br.teste.eti.Portfolio.domain.dto.ConvertDTOS;
 import br.teste.eti.Portfolio.domain.dto.PersonDto;
-import br.teste.eti.Portfolio.services.PersonService;
 import br.teste.eti.Portfolio.services.PersonServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -21,8 +17,6 @@ import java.util.Optional;
 public class PersonController {
     private String msg;
     private boolean alert;
-
-    //private final PersonService personService;
     private final PersonServiceImpl personService;
     @Autowired
     public PersonController (PersonServiceImpl personService) {
@@ -71,8 +65,6 @@ public class PersonController {
     public ModelAndView createPerson1(PersonDto personDto)  {
         ConvertDTOS dtos = new ConvertDTOS();
         Person person=dtos.covertPessonDto(personDto);
-
-
         if (person.isFuncionario()  && !Objects.equals(person.getNome(), "")){
             alert=true;
             msg="Pessoa cadastrada com sucesso.";
@@ -84,7 +76,6 @@ public class PersonController {
 
         List<Person> people= personService.getAllPeople();
         System.out.println(people);
-
         ModelAndView modelAndView = new ModelAndView("listapessoas");
         modelAndView.addObject("msg",msg);
         modelAndView.addObject("alert",alert);
@@ -100,7 +91,6 @@ public class PersonController {
         ModelAndView andView = new ModelAndView("listapessoas");
         long num = 0;
         num= Long.parseLong(id);
-
         if (personDto.isFuncionario()  && !Objects.equals(person.getNome(), "")){
             personService.updatePerson(num, person);
         }else{

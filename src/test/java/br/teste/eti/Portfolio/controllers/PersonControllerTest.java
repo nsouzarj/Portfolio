@@ -177,11 +177,9 @@ class PersonControllerTest {
         person1.setGerente(true);
         ConvertDTOS dtos = new ConvertDTOS();
         PersonDto personDto= dtos.covertDtoPesson(person1);
-
         //Acao
         when(personService.updatePerson(anyLong(), eq(person1))).thenReturn(person1);
         ModelAndView modelAndView = personController.updatePerson("123", personDto);
-
         //Verificacao
         assertEquals("listapessoas", modelAndView.getViewName());
         // Add more assertions as needed
@@ -201,10 +199,8 @@ class PersonControllerTest {
         PersonDto personDto= dtos.covertDtoPesson(person1);
         // Example valid data
         when(personService.updatePerson(anyLong(), eq(person1))).thenReturn(person1);
-
         // Act
         ModelAndView modelAndView = personController.updatePerson("123", personDto);
-
         // Assert
         assertEquals("listapessoas", modelAndView.getViewName());
         // Add more assertions as needed
@@ -215,10 +211,8 @@ class PersonControllerTest {
         //Cenario
         ModelAndView expectedView = new ModelAndView("cadastropessoa");
         Person expectedPerson = new Person();
-
         //Acao
         ModelAndView actualView = personController.cadastrarPessoas(response);
-
         //Verificacao
         assertEquals(expectedView.getViewName(), actualView.getViewName());
        // assertEquals(expectedPerson, actualView.getModel().get("p"));
