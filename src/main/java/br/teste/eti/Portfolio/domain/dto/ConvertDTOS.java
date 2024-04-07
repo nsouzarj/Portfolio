@@ -3,6 +3,9 @@ package br.teste.eti.Portfolio.domain.dto;
 import br.teste.eti.Portfolio.domain.Person;
 import br.teste.eti.Portfolio.domain.Project;
 
+/**
+ * Tratamamento dos DTO e conversoes
+ */
 public class ConvertDTOS {
     public Person covertPessonDto(PersonDto personDTO){
         Person person= new Person();
