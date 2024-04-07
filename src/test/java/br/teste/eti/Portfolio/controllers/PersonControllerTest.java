@@ -1,10 +1,8 @@
 package br.teste.eti.Portfolio.controllers;
 
 import br.teste.eti.Portfolio.domain.Person;
-import br.teste.eti.Portfolio.domain.Project;
 import br.teste.eti.Portfolio.domain.dto.ConvertDTOS;
 import br.teste.eti.Portfolio.domain.dto.PersonDto;
-import br.teste.eti.Portfolio.services.PersonService;
 import br.teste.eti.Portfolio.services.PersonServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,9 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
