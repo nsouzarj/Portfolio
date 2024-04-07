@@ -7,7 +7,9 @@ import br.teste.eti.Portfolio.domain.dto.ProjectDto;
 import br.teste.eti.Portfolio.enums.Risco;
 import br.teste.eti.Portfolio.enums.StatusProjeto;
 import br.teste.eti.Portfolio.services.PersonService;
+import br.teste.eti.Portfolio.services.PersonServiceImpl;
 import br.teste.eti.Portfolio.services.ProjectService;
+import br.teste.eti.Portfolio.services.ProjectServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,9 +33,9 @@ import static org.mockito.Mockito.*;
 class ProjectControllerTest {
 
     @Mock
-    private PersonService personService;
+    private PersonServiceImpl personService;
     @Mock
-    private ProjectService projectService;
+    private ProjectServiceImpl projectService;
     @InjectMocks
     private ProjectController projectController;
 

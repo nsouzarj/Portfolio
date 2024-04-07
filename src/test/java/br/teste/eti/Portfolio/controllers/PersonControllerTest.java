@@ -5,6 +5,7 @@ import br.teste.eti.Portfolio.domain.Project;
 import br.teste.eti.Portfolio.domain.dto.ConvertDTOS;
 import br.teste.eti.Portfolio.domain.dto.PersonDto;
 import br.teste.eti.Portfolio.services.PersonService;
+import br.teste.eti.Portfolio.services.PersonServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PersonControllerTest {
 
     @Mock
-    private PersonService personService;
+    private PersonServiceImpl personService;
 
     @Mock
     private HttpServletResponse response;

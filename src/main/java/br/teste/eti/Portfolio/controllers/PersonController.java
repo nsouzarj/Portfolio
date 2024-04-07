@@ -4,6 +4,7 @@ import br.teste.eti.Portfolio.domain.Project;
 import br.teste.eti.Portfolio.domain.dto.ConvertDTOS;
 import br.teste.eti.Portfolio.domain.dto.PersonDto;
 import br.teste.eti.Portfolio.services.PersonService;
+import br.teste.eti.Portfolio.services.PersonServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +22,10 @@ public class PersonController {
     private String msg;
     private boolean alert;
 
-    private final PersonService personService;
+    //private final PersonService personService;
+    private final PersonServiceImpl personService;
     @Autowired
-    public PersonController (PersonService personService) {
+    public PersonController (PersonServiceImpl personService) {
         this.personService = personService;
     }
     public List<Person> getAllPeople() {

@@ -6,6 +6,8 @@ import br.teste.eti.Portfolio.domain.dto.ProjectDto;
 import br.teste.eti.Portfolio.enums.Risco;
 import br.teste.eti.Portfolio.enums.StatusProjeto;
 import br.teste.eti.Portfolio.services.PersonService;
+import br.teste.eti.Portfolio.services.PersonServiceImpl;
+import br.teste.eti.Portfolio.services.ProjectServiceImpl;
 import org.aspectj.weaver.patterns.PerObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +24,10 @@ import javax.persistence.EntityNotFoundException;
 @RestController
 @RequestMapping("/api/projeto")
 public class ProjectController {
-    private final ProjectService projectService;
-    private final PersonService personService;
+    private final ProjectServiceImpl projectService;
+    private final PersonServiceImpl personService;
     @Autowired
-    public ProjectController (ProjectService projectService, PersonService personService) {
+    public ProjectController (ProjectServiceImpl projectService, PersonServiceImpl personService) {
         this.projectService = projectService;
         this.personService=personService;
     }
